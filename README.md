@@ -4,7 +4,9 @@ Immagine **PHP 8.3.36 + Apache** basata su `php:8.3.36-apache`.
 
 ## Cosa include
 
-- **Apache** con `mod_rewrite` attivo
+- **Apache** con `mod_rewrite`, `mod_headers` e `mod_expires` attivi
+- **`.htaccess` funzionanti** (`AllowOverride All` sul document root `/var/www/`)
+- **Blocchi di sicurezza di default** (`.htaccess`, file nascosti, `.env`, `.git`, log, database, backup, `composer.json/lock`, ecc.)
 - **PHP 8.3.36** con le estensioni predefinite dell'immagine ufficiale (`curl`, `mbstring`, `dom`, `fileinfo`, `ctype`, `filter`, `opcache`, ...)
 - **Estensioni PHP** aggiunte: `calendar`, `exif`, `ftp`, `gettext`, `mysqli`, `pdo_mysql`, `shmop`, `sockets`, `sysvmsg`, `sysvsem`, `sysvshm`, `xsl`, `imagick`
 - **GD** (con JPEG/FreeType/PNG) solo nelle varianti con GD (`WITH_GD=1`, tag `*-gd`)

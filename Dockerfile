@@ -42,5 +42,16 @@ RUN if [ "$WITH_GD" = "1" ]; then \
 RUN pecl install imagick \
     && docker-php-ext-enable imagick
 
-# Abilitiamo il modulo rewrite di Apache per i permalink/htaccess
-RUN a2enmod rewrite
+# Abilitiamo i moduli Apache necessari:
+# - rewrite: permalink/riscritture URL
+# - headers: direttive Header/RequestHeader negli .htaccess
+# - expires: cache/expires sempre via .htaccess
+RUN a2enmod rewrite headers expires
+
+# Gli .htaccess devono poter sovrascrivere la configurazione.
+# La base ha AllowOverride None nel blocco <Directory /var/www/> di
+# apache2.conf; il file qui sotto viene incluso in coda (conf-enabled),
+# quindi vince e abilita AllowOverride All SOLO sul document root
+# (non su / o /usr/share, come farebbe un sed globale).
+COPY apache/security.conf /etc/apache2/conf-available/php-hardening.conf
+RUN a2enconf php-hardening
